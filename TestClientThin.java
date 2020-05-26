@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.Random;
 
-public class TestClientThick {
+public class TestClientThin {
 
 	public static void main(String[] args) throws SQLException {
 		Connection con = null;
@@ -16,19 +16,18 @@ public class TestClientThick {
 		String phoenix_host = args[0];
 		String phoenix_port = args[1];
 		String phoenix_auth = args[2];
-		String phoenix_zpath = args[3];
 		String phoenix_principal = "";
 		String phoenix_keytab = "";
 
 		String[] depts = {"SALES", "SUPPORT", "DEVELOPMENT", "MANAGEMENT"};
 
-		if(phoenix_auth.equals("KERBEROS")) {
-			phoenix_principal = args[4];
-			phoenix_keytab = args[5];
-			con = DriverManager.getConnection("jdbc:phoenix:"+phoenix_host+":"+phoenix_port+":"+phoenix_zpath+":"+phoenix_principal+":"+phoenix_keytab);
+		if(phoenix_auth.equals("SPNEGO")) {
+			phoenix_principal = args[3];
+			phoenix_keytab = args[4];
+			con = DriverManager.getConnection("jdbc:phoenix:thin:url="+phoenix_host+":"+phoenix_port+";authentication=SPNEGO;serialization=PROTOBUF;principal="+phoenix_principal+";keytab="+phoenix_keytab);
 			stmt = con.createStatement();
 		} else {
-			con = DriverManager.getConnection("jdbc:phoenix:"+phoenix_host+":"+phoenix_port+":"+phoenix_zpath);
+			con = DriverManager.getConnection("jdbc:phoenix:thin:url="+phoenix_host+":"+phoenix_port+";authentication=BASIC;serialization=PROTOBUF");
 			stmt = con.createStatement();
 		}
 		
