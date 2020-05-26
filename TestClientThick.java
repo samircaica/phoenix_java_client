@@ -31,24 +31,24 @@ public class TestClientThick {
 			con = DriverManager.getConnection("jdbc:phoenix:"+phoenix_host+":"+phoenix_port+":"+phoenix_zpath);
 			stmt = con.createStatement();
 		}
-		
-		
+
+
 		System.out.println("Using to connect = " + phoenix_host + ", " + phoenix_port+ ", " + phoenix_auth+ ", " + phoenix_principal+ ", " + phoenix_keytab);
 
 		stmt.executeUpdate("DROP TABLE IF EXISTS EMP4");
 		stmt.executeUpdate("CREATE TABLE EMP4 (emp_id integer not null, dept char(15) constraint PK PRIMARY KEY(EMP_ID))");
 		Random r = new Random();
-        
+
 		for(int i=0;i<10;i++) {
 			int randomNumber = r.nextInt(depts.length);
 			String deptsValue = depts[randomNumber];
-			
+
 			int j = i+1;
 			stmt.executeUpdate("UPSERT INTO EMP4 VALUES ("+j+",'"+deptsValue+"')");
 		}
-		
+
 		con.commit();
-		
+
 		PreparedStatement statement = con.prepareStatement("select * from EMP4");
 		rset = statement.executeQuery();
 		System.out.println("emp_id dept");
