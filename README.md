@@ -3,6 +3,8 @@
 ## Execution:
 ```
 cp /etc/hbase/conf/hbase-site.xml .
+cp /etc/hadoop/conf/hdfs-site.xml .
+cp /etc/hadoop/conf/core-site.xml .
 
 Thick client:
 javac -cp "/usr/hdp/current/phoenix-client/phoenix-client.jar:." TestClientThick.java
