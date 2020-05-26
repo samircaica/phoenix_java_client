@@ -2,6 +2,8 @@
 
 ## Execution:
 ```
+cp /etc/hbase/conf/hbase-site.xml .
+
 Thick client:
 javac -cp "/usr/hdp/current/phoenix-client/phoenix-client.jar:." TestClientThick.java
 
