@@ -16,23 +16,24 @@ public class TestClientThin {
 		String phoenix_host = args[0];
 		String phoenix_port = args[1];
 		String phoenix_auth = args[2];
+		String phoenix_serialization = args[3];
 		String phoenix_principal = "";
 		String phoenix_keytab = "";
 
 		String[] depts = {"SALES", "SUPPORT", "DEVELOPMENT", "MANAGEMENT"};
 
 		if(phoenix_auth.equals("SPNEGO")) {
-			phoenix_principal = args[3];
-			phoenix_keytab = args[4];
-			con = DriverManager.getConnection("jdbc:phoenix:thin:url="+phoenix_host+":"+phoenix_port+";authentication=SPNEGO;serialization=PROTOBUF;principal="+phoenix_principal+";keytab="+phoenix_keytab);
+			phoenix_principal = args[4];
+			phoenix_keytab = args[5];
+			con = DriverManager.getConnection("jdbc:phoenix:thin:url="+phoenix_host+":"+phoenix_port+";authentication=SPNEGO;serialization="+phoenix_serialization+";principal="+phoenix_principal+";keytab="+phoenix_keytab);
 			stmt = con.createStatement();
 		} else {
-			con = DriverManager.getConnection("jdbc:phoenix:thin:url="+phoenix_host+":"+phoenix_port+";authentication=BASIC;serialization=PROTOBUF");
+			con = DriverManager.getConnection("jdbc:phoenix:thin:url="+phoenix_host+":"+phoenix_port+";authentication=BASIC;serialization="+phoenix_serialization);
 			stmt = con.createStatement();
 		}
 		
 		
-		System.out.println("Using to connect = " + phoenix_host + ", " + phoenix_port+ ", " + phoenix_auth+ ", " + phoenix_principal+ ", " + phoenix_keytab);
+		System.out.println("Using to connect = " + phoenix_host + ", " + phoenix_port+ ", " +phoenix_auth+ ","+phoenix_serialization+ ", "+phoenix_principal+ ", " + phoenix_keytab);
 
 		stmt.executeUpdate("DROP TABLE IF EXISTS EMP4");
 		stmt.executeUpdate("CREATE TABLE EMP4 (emp_id integer not null, dept char(15) constraint PK PRIMARY KEY(EMP_ID))");
